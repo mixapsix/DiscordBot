@@ -20,11 +20,11 @@ public class Listener extends ListenerAdapter
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         User user = event.getAuthor();
 
-        if(user.isBot() || event.isWebhookMessage())
-            return;
+//        if(user.isBot() || event.isWebhookMessage())
+//            return;
 
-//        if(event.getMessage().getMentionedUsers().contains("FunBot"))
-//            event.getChannel().sendMessageFormat("Я отвечу как Роршах, нет!").queue();
+//        if(event.getMessage().getMentionedUsers().equals(event.getGuild().getSelfMember()))
+//            event.getChannel().sendMessageFormat("Ну, а я прошепчу... «НЕТ!»").queue();
 
         String raw = event.getMessage().getContentRaw();
         if(raw.startsWith(Bot.prefix))

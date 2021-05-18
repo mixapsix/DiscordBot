@@ -6,11 +6,12 @@ import DiscordBot.lavaplayer.GuildMusicManager;
 import DiscordBot.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class SkipCommand implements ICommand
+public class NowPlayingCommand implements ICommand
 {
 
     @Override
@@ -43,20 +44,18 @@ public class SkipCommand implements ICommand
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
         final AudioPlayer audioPlayer = musicManager.audioPlayer;
+        final AudioTrackInfo playingTrack = audioPlayer.getPlayingTrack().getInfo();
 
-        if(audioPlayer.getPlayingTrack() == null)
+        if(playingTrack == null)
         {
             channel.sendMessage("There is no track playing currently").queue();
             return;
         }
-
-        final AudioTrack audioTrack = musicManager.audioPlayer.getPlayingTrack();
-        musicManager.scheduler.nextTrack();
-        channel.sendMessageFormat("Skipped \"%s\" by \"%s\"",audioTrack.getInfo().title, audioTrack.getInfo().author).queue();
+        channel.sendMessageFormat("Now playing `%s` by `%s` Link: <%s>", playingTrack.title, playingTrack.author, playingTrack.uri).queue();
     }
 
     @Override
     public String getName() {
-        return "skip";
+        return "now";
     }
 }

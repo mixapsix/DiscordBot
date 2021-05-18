@@ -38,7 +38,7 @@ public class JoinCommand implements ICommand
 
 
         audioManager.openAudioConnection(memberVoiceChannel);
-        channel.sendMessageFormat("Connection to \uD83D\uDD0A %s", memberVoiceChannel.getName()).queue();
+        channel.sendMessageFormat("Connection to \uD83D\uDD0A `%s`", memberVoiceChannel.getName()).queue();
     }
 
     @Override

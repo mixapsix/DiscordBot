@@ -6,10 +6,7 @@ import DiscordBot.command.commands.Help;
 import DiscordBot.command.commands.Quotes;
 import DiscordBot.command.commands.PingCommand;
 import DiscordBot.command.commands.RandomNumber;
-import DiscordBot.command.commands.music.JoinCommand;
-import DiscordBot.command.commands.music.PlayCommand;
-import DiscordBot.command.commands.music.SkipCommand;
-import DiscordBot.command.commands.music.StopCommand;
+import DiscordBot.command.commands.music.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nullable;
@@ -31,6 +28,8 @@ public class CommandManager
         addCommand(new PlayCommand());
         addCommand(new StopCommand());
         addCommand(new SkipCommand());
+        addCommand(new NowPlayingCommand());
+        addCommand(new QueueCommands());
 
         addCommand(new Help(commands));
     }
