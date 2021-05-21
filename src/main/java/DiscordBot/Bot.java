@@ -16,7 +16,7 @@ public class Bot
     {
         jda = JDABuilder.createDefault(token).build();
         jda.getPresence().setStatus(OnlineStatus.IDLE);
-        jda.getPresence().setActivity(Activity.playing("повелителя моего очка"));
+        jda.getPresence().setActivity(Activity.playing("вы заперты со мной"));
         jda.addEventListener(new Listener());
     }
 

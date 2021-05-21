@@ -1,8 +1,13 @@
 package DiscordBot;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +38,10 @@ public class Listener extends ListenerAdapter
         }
     }
 
-
-
+    @Override
+    public void onGuildMessageUpdate(@NotNull GuildMessageUpdateEvent event)
+    {
+        final TextChannel channel = event.getChannel();
+        channel.sendMessageFormat("%s\nУже ничего не изменить!\nНикаких компромиссов. Даже перед лицом Армагеддона.",event.getAuthor()).queue();
+    }
 }
