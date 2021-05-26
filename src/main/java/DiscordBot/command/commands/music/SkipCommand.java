@@ -59,4 +59,9 @@ public class SkipCommand implements ICommand
     public String getName() {
         return "skip";
     }
+
+    @Override
+    public String getHelp() {
+        return "Skip track from queue";
+    }
 }

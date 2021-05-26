@@ -10,11 +10,9 @@ import javax.security.auth.login.LoginException;
 public class Bot
 {
     public static JDA jda;
-    public static String prefix = "~";
-
-    private Bot(String token) throws LoginException
+    private Bot() throws LoginException
     {
-        jda = JDABuilder.createDefault(token).build();
+        jda = JDABuilder.createDefault(Config.get("token")).build();
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.playing("вы заперты со мной"));
         jda.addEventListener(new Listener());
@@ -22,6 +20,6 @@ public class Bot
 
     public static void main(String[] args) throws LoginException
     {
-        new Bot(args[0]);
+        new Bot();
     }
 }

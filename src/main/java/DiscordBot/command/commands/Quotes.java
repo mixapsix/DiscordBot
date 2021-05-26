@@ -46,4 +46,9 @@ public class Quotes implements ICommand
     {
         return "quotes";
     }
+
+    @Override
+    public String getHelp() {
+        return "Get beautiful Rorschach phrases";
+    }
 }

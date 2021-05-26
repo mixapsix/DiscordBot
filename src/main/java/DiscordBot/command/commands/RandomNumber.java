@@ -1,5 +1,6 @@
 package DiscordBot.command.commands;
 
+import DiscordBot.Config;
 import DiscordBot.TextParse;
 import DiscordBot.command.CommandContext;
 import DiscordBot.command.ICommand;
@@ -34,6 +35,12 @@ public class RandomNumber implements ICommand
     @Override
     public String getName() {
         return "random";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Get random value from (1-100)\n" +
+                "Or type "+ Config.get("prefix") + "random <> <> to get value in range";
     }
 
     public int getRandomNumber(int min, int max)

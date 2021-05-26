@@ -13,6 +13,7 @@ public class TrackScheduler extends AudioEventAdapter
 
     public final AudioPlayer player;
     public final BlockingQueue<AudioTrack> queue;
+    public boolean repeating = false;
 
     public TrackScheduler(AudioPlayer player)
     {
@@ -28,7 +29,13 @@ public class TrackScheduler extends AudioEventAdapter
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-       if(endReason.mayStartNext) {
+       if(endReason.mayStartNext)
+       {
+           if(repeating)
+           {
+               player.startTrack(track.makeClone(), false);
+               return;
+           }
            nextTrack();
        }
 
@@ -36,6 +43,7 @@ public class TrackScheduler extends AudioEventAdapter
 
     public void nextTrack()
     {
+
         this.player.startTrack(this.queue.poll(), false);
     }
 }

@@ -2,7 +2,7 @@ package DiscordBot;
 
 import DiscordBot.command.CommandContext;
 import DiscordBot.command.ICommand;
-import DiscordBot.command.commands.Help;
+import DiscordBot.command.commands.HelpCommand;
 import DiscordBot.command.commands.Quotes;
 import DiscordBot.command.commands.PingCommand;
 import DiscordBot.command.commands.RandomNumber;
@@ -30,8 +30,10 @@ public class CommandManager
         addCommand(new SkipCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new QueueCommands());
+        addCommand(new RepeatCommand());
+        addCommand(new LeaveCommand());
 
-        addCommand(new Help(commands));
+        addCommand(new HelpCommand(this));
     }
 
 
@@ -45,13 +47,18 @@ public class CommandManager
         commands.add(cmd);
     }
 
+    public List<ICommand> getCommands()
+    {
+        return commands;
+    }
+
     @Nullable
-    private ICommand getCommand(String search)
+    public ICommand getCommand(String search)
     {
         String searchLower = search.toLowerCase();
         for (ICommand cmd : commands)
         {
-            if(cmd.getName().equals(searchLower) || cmd.getAliases().equals(searchLower))
+            if(cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower))
                 return cmd;
         }
         return null;
@@ -60,7 +67,7 @@ public class CommandManager
     void handle(GuildMessageReceivedEvent event)
     {
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst(Bot.prefix, "")
+                .replaceFirst(Config.get("prefix"), "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();

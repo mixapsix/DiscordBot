@@ -5,13 +5,13 @@ import DiscordBot.command.ICommand;
 import DiscordBot.lavaplayer.GuildMusicManager;
 import DiscordBot.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class NowPlayingCommand implements ICommand
+import java.util.List;
+
+public class RepeatCommand implements ICommand
 {
 
     @Override
@@ -43,24 +43,25 @@ public class NowPlayingCommand implements ICommand
         }
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
-        final AudioPlayer audioPlayer = musicManager.audioPlayer;
-        final AudioTrackInfo playingTrack = audioPlayer.getPlayingTrack().getInfo();
+        final boolean nowRepeating = !musicManager.scheduler.repeating;
 
-        if(playingTrack == null)
-        {
-            channel.sendMessage("There is no track playing currently").queue();
-            return;
-        }
-        channel.sendMessageFormat("Now playing `%s` by `%s` Link: <%s>", playingTrack.title, playingTrack.author, playingTrack.uri).queue();
+        musicManager.scheduler.repeating = nowRepeating;
+
+        channel.sendMessageFormat("The player has been set to **%s**", nowRepeating ? "repeating" : "not repeating").queue();
     }
 
     @Override
     public String getName() {
-        return "now";
+        return "repeat";
     }
 
     @Override
     public String getHelp() {
-        return "Show what playing now";
+        return "Loops current song";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return List.of("r");
     }
 }

@@ -1,5 +1,6 @@
 package DiscordBot.command.commands.music;
 
+import DiscordBot.Config;
 import DiscordBot.command.CommandContext;
 import DiscordBot.command.ICommand;
 import DiscordBot.lavaplayer.PlayerManager;
@@ -14,9 +15,14 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import javax.print.attribute.URISyntax;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class PlayCommand implements ICommand
 {
+    @Override
+    public List<String> getAliases() {
+        return List.of("play", "p");
+    }
 
     @Override
     public void handle(CommandContext ctx)
@@ -67,6 +73,13 @@ public class PlayCommand implements ICommand
     public String getName()
     {
         return "play";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Play youtube video, need join bot to voice channel\n" +
+                "Usage "+ Config.get("prefix") + "play <youtube video url>\n" +
+                 Config.get("prefix")+ "play <search request>";
     }
 
     private boolean isUrl(String url)

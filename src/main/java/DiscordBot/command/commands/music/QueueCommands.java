@@ -72,4 +72,9 @@ public class QueueCommands implements ICommand
     public String getName() {
         return "queue";
     }
+
+    @Override
+    public String getHelp() {
+        return "Get current queue playlist";
+    }
 }

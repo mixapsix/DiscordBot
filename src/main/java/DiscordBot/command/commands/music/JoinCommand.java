@@ -46,4 +46,9 @@ public class JoinCommand implements ICommand
     {
         return "join";
     }
+
+    @Override
+    public String getHelp() {
+        return "Join bot to voice channel";
+    }
 }

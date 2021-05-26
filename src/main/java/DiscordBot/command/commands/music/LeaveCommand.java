@@ -4,14 +4,15 @@ import DiscordBot.command.CommandContext;
 import DiscordBot.command.ICommand;
 import DiscordBot.lavaplayer.GuildMusicManager;
 import DiscordBot.lavaplayer.PlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.managers.AudioManager;
 
-public class NowPlayingCommand implements ICommand
+import java.util.List;
+
+public class LeaveCommand implements ICommand
 {
 
     @Override
@@ -42,25 +43,38 @@ public class NowPlayingCommand implements ICommand
             return;
         }
 
-        final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
-        final AudioPlayer audioPlayer = musicManager.audioPlayer;
-        final AudioTrackInfo playingTrack = audioPlayer.getPlayingTrack().getInfo();
+        Guild guild = ctx.getGuild();
 
-        if(playingTrack == null)
-        {
-            channel.sendMessage("There is no track playing currently").queue();
-            return;
-        }
-        channel.sendMessageFormat("Now playing `%s` by `%s` Link: <%s>", playingTrack.title, playingTrack.author, playingTrack.uri).queue();
+        final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);
+
+        musicManager.scheduler.repeating = false;
+        musicManager.scheduler.queue.clear();
+        musicManager.audioPlayer.stopTrack();
+
+
+        final AudioManager audioManager = ctx.getGuild().getAudioManager();
+
+        audioManager.closeAudioConnection();
+
+        channel.sendMessageFormat("Bot leave from channel \uD83D\uDD0A `%s`", memberVoiceState.getChannel().getName()).queue();
+
     }
 
     @Override
-    public String getName() {
-        return "now";
+    public String getName()
+    {
+        return "leave";
     }
 
     @Override
-    public String getHelp() {
-        return "Show what playing now";
+    public String getHelp()
+    {
+        return "Leave bot from channel";
+    }
+
+    @Override
+    public List<String> getAliases()
+    {
+        return List.of("l");
     }
 }
