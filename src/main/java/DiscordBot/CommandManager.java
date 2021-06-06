@@ -2,10 +2,7 @@ package DiscordBot;
 
 import DiscordBot.command.CommandContext;
 import DiscordBot.command.ICommand;
-import DiscordBot.command.commands.HelpCommand;
-import DiscordBot.command.commands.Quotes;
-import DiscordBot.command.commands.PingCommand;
-import DiscordBot.command.commands.RandomNumber;
+import DiscordBot.command.commands.*;
 import DiscordBot.command.commands.music.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -13,6 +10,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CommandManager
 {
@@ -32,6 +30,7 @@ public class CommandManager
         addCommand(new QueueCommands());
         addCommand(new RepeatCommand());
         addCommand(new LeaveCommand());
+        addCommand(new SetPrefixCommand());
 
         addCommand(new HelpCommand(this));
     }
@@ -64,10 +63,10 @@ public class CommandManager
         return null;
     }
 
-    void handle(GuildMessageReceivedEvent event)
+    void handle(GuildMessageReceivedEvent event, String prefix)
     {
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst(Config.get("prefix"), "")
+                .replaceFirst("(?i)" + Pattern.quote(prefix), "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();
