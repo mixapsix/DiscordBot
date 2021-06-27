@@ -65,7 +65,6 @@ public class Listener extends ListenerAdapter
             LOGGER.info("Shutting down");
             event.getJDA().shutdown();
             BotCommons.shutdown(event.getJDA());
-
             return;
         }
 
@@ -80,18 +79,18 @@ public class Listener extends ListenerAdapter
         if(event.getAuthor().getId().equals("255260574978408448"))
         {
             event.getMessage().addReaction(jda.getEmoteById("717020055417651341")).queue();
-            return;
         }
 
         for (User mentionedUser : mentionedUsers) {
-            if(mentionedUser.equals(jda.getUserById("839545278422974535"))){
+            if(mentionedUser.equals(jda.getUserById("839545278422974535")))
+            {
                 new Quotes().handle(new CommandContext(event,List.of()));
             }
         }
 
-        if(Config.get("EMOJI_STIKER").equals("true")) {
+        if(Config.get("EMOJI_STIKER").equals("true") && !event.getAuthor().getId().equals("255260574978408448")) {
             int collectionId = rnd.nextInt(emotes.size() - 1);
-            if (rnd.nextInt(10) % TextParse.tryParseInt(Config.get("EMOJI_COEFFICIENT")) == 0)
+            if ((rnd.nextInt(100) % TextParse.tryParseInt(Config.get("EMOJI_COEFFICIENT"))) == 0)
                 event.getMessage().addReaction(emotes.get(collectionId)).queue();
         }
     }
