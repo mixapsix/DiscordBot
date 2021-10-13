@@ -22,7 +22,7 @@ public class CommandManager
         addCommand(new Quotes());
         addCommand(new RandomNumber());
 
-        addCommand(new JoinCommand());
+//        addCommand(new JoinCommand());
         addCommand(new PlayCommand());
         addCommand(new StopCommand());
         addCommand(new SkipCommand());

@@ -124,19 +124,19 @@ public class Listener extends ListenerAdapter
 
         return Config.get("prefix");
     }
-
-    @Override
-    public void onGuildMessageUpdate(@NotNull GuildMessageUpdateEvent event)
-    {
-        final TextChannel channel = event.getChannel();
-        channel.sendMessageFormat("%s\nУже ничего не изменить!\nНикаких компромиссов. Даже перед лицом Армагеддона.",event.getAuthor()).queue();
-    }
-
-    @Override
-    public void onRoleCreate(@NotNull RoleCreateEvent event)
-    {
-        JDA jda = event.getJDA();
-        TextChannel textChannel = jda.getTextChannelById(Config.get("chat_id"));
-        textChannel.sendMessageFormat("Создана новая роль %s", event.getRole());
-    }
+//
+//    @Override
+//    public void onGuildMessageUpdate(@NotNull GuildMessageUpdateEvent event)
+//    {
+//        final TextChannel channel = event.getChannel();
+//        channel.sendMessageFormat("%s\nУже ничего не изменить!\nНикаких компромиссов. Даже перед лицом Армагеддона.",event.getAuthor()).queue();
+//    }
+//
+//    @Override
+//    public void onRoleCreate(@NotNull RoleCreateEvent event)
+//    {
+//        JDA jda = event.getJDA();
+//        TextChannel textChannel = jda.getTextChannelById(Config.get("chat_id"));
+//        textChannel.sendMessageFormat("Создана новая роль %s", event.getRole());
+//    }
 }

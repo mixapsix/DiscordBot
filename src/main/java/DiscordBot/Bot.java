@@ -17,7 +17,7 @@ public class Bot
 
         SQLiteDataSource.getConnection();
 
-        jda = JDABuilder.createDefault(System.getenv("TOKEN")).build();
+        jda = JDABuilder.createDefault(Config.get("token")).build();
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.playing("вы заперты со мной"));
         jda.addEventListener(new Listener());

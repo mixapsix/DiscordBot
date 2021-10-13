@@ -39,21 +39,20 @@ public class PlayCommand implements ICommand
             return;
         }
 
-        if(!selfVoiceState.inVoiceChannel())
-        {
-            channel.sendMessage("I need to be in voice channel, run ~join command").queue();
-            return;
-        }
         if(!memberVoiceState.inVoiceChannel())
         {
             channel.sendMessage("You need to be in voice channel").queue();
             return;
         }
-        if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel()))
+
+        if(!selfVoiceState.inVoiceChannel())
         {
-            channel.sendMessage("You need to be in same voice channel").queue();
-            return;
+            final AudioManager audioManager = ctx.getGuild().getAudioManager();
+            final VoiceChannel memberVoiceChannel = memberVoiceState.getChannel();
+            audioManager.openAudioConnection(memberVoiceChannel);
+            channel.sendMessageFormat("Connection to \uD83D\uDD0A `%s`", memberVoiceChannel.getName()).queue();
         }
+
         if(ctx.getArgs().size() == 0)
         {
             channel.sendMessage("Add youtube video to command").queue();
@@ -68,6 +67,7 @@ public class PlayCommand implements ICommand
         }
 
         PlayerManager.getInstance().loadAndPlay(channel, link);
+
     }
     @Override
     public String getName()

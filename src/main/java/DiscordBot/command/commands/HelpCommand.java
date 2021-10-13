@@ -32,11 +32,12 @@ public class HelpCommand implements ICommand
             String prefix = Prefixes.PREFIXES.get(ctx.getGuild().getIdLong());
             builder.append("List of commands\n");
 
-            manager.getCommands().stream().map(ICommand::getName).forEach(
+            manager.getCommands().stream().filter(it -> !it.getName().equals("help")).forEach(
                     (it) -> builder
                             .append("`")
                             .append(prefix)
-                            .append(it)
+                            .append(it.getName() + " - ")
+                            .append(it.getHelp())
                             .append("`\n")
             );
             channel.sendMessage(builder.toString()).queue();
